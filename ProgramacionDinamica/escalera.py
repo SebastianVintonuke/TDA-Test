@@ -1,6 +1,21 @@
 # (★) Dada una escalera, y sabiendo que tenemos la capacidad de subir escalones de a 1 o 2 o 3 pasos, encontrar, utilizando programación dinámica, cuántas formas diferentes hay de subir la escalera hasta el paso n. Indicar y justificar la complejidad del algoritmo implementado. Ejemplos: n = 0 –> Debe devolver 1 (no moverse) n = 1 –> Debe devolver 1 (paso de 1) n = 2 –> Debe devolver 2 (dos pasos de 1, o un paso de 2) n = 3 –> Debe devolver 4 (un paso de 3, o tres pasos de 1, o un paso de 2 y uno de 1, o un paso de 1 y un paso de 2) n = 4 –> Debe devolver 7 n = 5 –> Debe devolver 13
 
-def escalera(n):
+
+
+# Ecuación de Recurrencia:
+#
+#                OPT(0) = 1
+#                OPT(1) = 1
+#                OPT(2) = 2
+#                OPT(3) = 4
+#
+#                OPT(n) = OPT(n-3) + OPT(n-2) + OPT(n-1)
+#
+# Es decir, el costo de llegar a un escalon n es el costo sumado de llegar
+# a todos los escalones desde los cuales puedo llegar a n con un solo paso
+#
+# Complejidad O(n), dado por recorrer todos los escalones en orden ascendente para calcular sus formas de llegar
+def escalones(n):
     escalones = [1, 1, 2, 4]
 
     if n < 4:
@@ -11,6 +26,14 @@ def escalera(n):
             nuevos_escalones = [ escalones[1], escalones[2], escalones[3], nuevo_escalon ]
             escalones = nuevos_escalones
     return escalones[-1]
+
+
+
+
+
+
+
+
 
 
 

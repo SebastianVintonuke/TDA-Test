@@ -1,5 +1,16 @@
 
-# dias: [ lunes:0, martes:1, miércoles:2, jueves:3, viernes:4 ]
+# Ecuación de Recurrencia:
+#
+#              OPT(0) = d_0
+#              OPT(1) = max(d_0, d_1)
+#
+#              OPT(n) = max( OPT(n-2) + d_n, OPT(n-1) )
+#
+# Es decir, el maximo entre trabajar ese dia "OPT(n-2) + d_n", dado por el valor obtenido de ese día
+# más el valor óptimo acumulado de los días trabajados exceptuando el anterior o
+# no trabajar ese dia "OPT(n-1)" dado por el valor óptimo de los días trabajados exceptuando este ultimo
+#
+# Complejidad: O(n) dado especialmente por el costo de calcular el óptimo para cada día
 def juan_el_vago(dias):
     if not dias:
         return []
@@ -38,6 +49,24 @@ def c_solucion(dias, optimos):
             n = n - 1
     solucion.reverse()
     return solucion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 import unittest
