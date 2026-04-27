@@ -1,6 +1,6 @@
 # Complejidad:
 #
-#        O(P + W) = O(P + 2^m)
+#        O(P * W) = O(P * 2^m)
 #
 # Ecuación de recurrencia:
 #
