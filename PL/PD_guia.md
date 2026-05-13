@@ -300,7 +300,7 @@ El modelo está formado por $i + 2$ inecuaciones
 
 ### 10. (★★★★) Dado un arreglo de enteros ordenado, un elemento y un valor entero k, se quiere encuentrar los k valores del arreglo más cercanos al elemento en cuestión (que bien podría estar en el arreglo, o no). Realizar un modelo de programación lineal que resuelva este problema. OJO nos interesa que sean cercanos al elemento, y eso se ve con el valor absoluto de la diferencia, y el operador módulo no es un operador lineal. Si se incluye el operador módulo como parte del Modelo, el ejercicio estará Mal. Resolver de tal manera que el modelo sea el que resuelva estas diferencias. Indicar la cantidad de restricciones definidas.
 
-- $E$ Elemento (constante)
+- $E$ Valor del elemento dado (constante)
 - $K$ Cantidad de valores a encontrar (constante entera)
 - $V_i$ Valor del elemento $i$ (constantes enteras)
 - $Y_i$ Si incluyo el elemento $i$ (variables booleanas)
@@ -309,10 +309,12 @@ El modelo está formado por $i + 2$ inecuaciones
 - $auxY_iD_i$ Si el elemento $i$ se incluye la distancia a $E$, si no $0$ (variable entera)
 
 
+- $A_i$ El elemento $i$ esta antes que el elemento $E$ (constante booleana)
+- $D_i$ Distancia del elemento $i$ al elemento $E$ (variable entera)
 
-
-
-
+# $\forall i; \quad D_i >= 0$
+# $\forall i; \quad D_i = P_i - P_E; \quad \not A_i$
+# $\forall i; \quad D_i = P_E - P_i; \quad A_i$
 
 
 
