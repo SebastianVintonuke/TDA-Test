@@ -1,4 +1,4 @@
-from grafo import Grafo
+from RedesDeFlujo.grafo import Grafo
 from collections import deque
 
 
@@ -11,12 +11,42 @@ from collections import deque
 # La complejidad es O(V*E^2) dado por la complejidad de FF
 def disjuntos(grafo, s, t):
     red_de_flujo_valida = red_de_flujo_valida_con_pesos_1(grafo, s, t)
-    flujos = flujo(red_de_flujo_valida, s, t) # O(V*E^2)
-    caminos= []
+    flujos = flujo(red_de_flujo_valida, "SUPER_S", "SUPER_T") # O(V*E^2)
 
     n_caminos = 0
     for v in grafo.adyacentes(s):
         n_caminos += flujos[(s, v)]
+
+    aristas_caminos = [
+        arista for arista, peso in flujos.items()
+        if peso == 1 and arista[0] != "SUPER_S" and arista[1] != "SUPER_T"
+    ] # saco los vertices que no se usan
+
+    vertices_agregados = set()
+    grafo_caminos = Grafo(True)
+    for j, k in aristas_caminos:
+        if j not in vertices_agregados:
+            grafo_caminos.agregar_vertice(j)
+            vertices_agregados.add(j)
+        if k not in vertices_agregados:
+            grafo_caminos.agregar_vertice(k)
+            vertices_agregados.add(k)
+        grafo_caminos.agregar_arista(j, k)
+
+    caminos = []
+    for _ in range(n_caminos):
+        camino_actual = []
+        actual = s
+        while actual != t:
+            siguiente = grafo_caminos.adyacentes(actual)[0]
+            if "," in str(actual): # Es de un vertice de una arista antiparalela
+                pass
+            else:
+                camino_actual.append(actual)
+            grafo_caminos.borrar_arista(actual, siguiente)
+            actual = siguiente
+        camino_actual.append(t)
+        caminos.append(camino_actual)
 
     return caminos
 
@@ -25,13 +55,13 @@ def disjuntos(grafo, s, t):
 def red_de_flujo_valida_con_pesos_1(grafo, s, t):
     copia_con_pesos_1 = Grafo(True, grafo.obtener_vertices())
     for v in grafo.obtener_vertices():
-        for a in grafo.adyacentes(v):
+        for a in grafo.adyacentes(v): # O(V+E)
             # ciclos, los saco para que la red sea válida
             if v == a:
                 continue
-            if v > a:
-                # v y a tienen antiparalelas, pongo nodos intermedios para que la red sea válida
-                if grafo.estan_unidos(a, v):
+            if grafo.estan_unidos(a, v):
+                if v > a:
+                    # v y a tienen antiparalelas, pongo nodos intermedios para que la red sea válida
                     va = f"{v},{a}"
                     av = f"{a},{v}"
                     copia_con_pesos_1.agregar_vertice(va)
@@ -50,8 +80,8 @@ def red_de_flujo_valida_con_pesos_1(grafo, s, t):
     copia_con_pesos_1.agregar_vertice(super_fuente)
     copia_con_pesos_1.agregar_vertice(super_sumidero)
     # la arista con SUPER no tiene que ser el cuello de botella, el peso tien que ser igual al número de potenciales caminos
-    copia_con_pesos_1.agregar_arista(super_fuente, s, len(copia_con_pesos_1.adyacentes(s)+1))
-    copia_con_pesos_1.agregar_arista(t, super_sumidero, len(copia_con_pesos_1.adyacentes(t)+1))
+    copia_con_pesos_1.agregar_arista(super_fuente, s, len(copia_con_pesos_1.adyacentes(s))+1)
+    copia_con_pesos_1.agregar_arista(t, super_sumidero, len(copia_con_pesos_1.adyacentes(s))+1)
     return copia_con_pesos_1
 
 
